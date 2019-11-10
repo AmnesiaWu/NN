@@ -1,8 +1,8 @@
-import mnist_forward
+import sources.mnist_forward
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 import os
-import mnist_generates
+import sources.mnist_generates
 BATCH_SIZE = 200
 RATE_DECAY = 0.99
 RATE_BASE = 0.1
@@ -15,9 +15,9 @@ train_num_examples = 60000
 
 
 def backward():
-    x = tf.placeholder(tf.float32, [None, mnist_forward.Input_Node])
-    y_ = tf.placeholder(tf.float32, [None, mnist_forward.Output_Node])
-    y = mnist_forward.forward(x, REGUL)
+    x = tf.placeholder(tf.float32, [None, sources.mnist_forward.Input_Node])
+    y_ = tf.placeholder(tf.float32, [None, sources.mnist_forward.Output_Node])
+    y = sources.mnist_forward.forward(x, REGUL)
     global_step = tf.Variable(0, trainable=False)
 
     ce = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y, labels=tf.argmax(y_, 1))
@@ -34,7 +34,7 @@ def backward():
         train_op = tf.no_op(name="train")
 
     saver = tf.train.Saver()
-    img_batch, label_batch = mnist_generates.get_tfRecord(BATCH_SIZE, True)
+    img_batch, label_batch = sources.mnist_generates.get_tfRecord(BATCH_SIZE, True)
     with tf.Session() as sess:
         init = tf.global_variables_initializer()
         sess.run(init)

@@ -1,5 +1,5 @@
-import mnist_backward
-import mnist_forward
+import sources.mnist_backward
+import sources.mnist_forward
 import tensorflow as tf
 import numpy as np
 from PIL import Image
@@ -7,16 +7,16 @@ from PIL import Image
 
 def restore_model(test_pic):
     with tf.Graph().as_default() as g:
-        x = tf.placeholder(tf.float32, [1, mnist_forward.Input_Node])
-        y = mnist_forward.forward(x, None)
+        x = tf.placeholder(tf.float32, [1, sources.mnist_forward.Input_Node])
+        y = sources.mnist_forward.forward(x, None)
         pre_value = tf.argmax(y, 1)
 
-        ema = tf.train.ExponentialMovingAverage(mnist_backward.AVERAGE_DECAY)
+        ema = tf.train.ExponentialMovingAverage(sources.mnist_backward.AVERAGE_DECAY)
         ema_to_restore = ema.variables_to_restore()
         saver = tf.train.Saver(ema_to_restore)
 
         with tf.Session() as sess:
-            ckpt = tf.train.get_checkpoint_state(mnist_backward.MODEL_PATH)
+            ckpt = tf.train.get_checkpoint_state(sources.mnist_backward.MODEL_PATH)
             if ckpt and ckpt.model_checkpoint_path:
                 saver.restore(sess, ckpt.model_checkpoint_path)
                 pre_value = sess.run(pre_value, feed_dict={x: test_pic})

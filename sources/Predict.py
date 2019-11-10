@@ -5,7 +5,7 @@ from PIL import Image
 
 img_size = 64
 num_channels = 3
-path = r'D:\py_pro\test\test2.jpg'
+path = r'D:\py_pro\test\test1\10.jpg'
 images = []
 
 image = Image.open(path)
@@ -17,11 +17,12 @@ image = image.reshape(1, img_size, img_size, num_channels)#使得img为4维
 
 sess = tf.Session()
 
-saver = tf.train.import_meta_graph(r'../cats_dogs_model/cats_dogs.ckpt-5000.meta')# 导入模型的网络结构
-saver.restore(sess, r'../cats_dogs_model/cats_dogs.ckpt-5000')
+saver = tf.train.import_meta_graph(r'../cats_dogs_model/cats_dogs.ckpt-8000.meta')# 导入模型的网络结构
+saver.restore(sess, r'../cats_dogs_model/cats_dogs.ckpt-8000')
 graph = tf.get_default_graph()
-y_pre = graph.get_tensor_by_name("y_pre:0")#需要加:0 表示节点y_pre的第一个输出张量
+y_pre = graph.get_tensor_by_name("y_true:0")#需要加:0 表示节点y_pre的第一个输出张量
 x = graph.get_tensor_by_name("x:0")
 res = sess.run(y_pre, feed_dict={x:image})
 labels = ['dogs', 'cats']
 print(labels[res.argmax()])
+print()

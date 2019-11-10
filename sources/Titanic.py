@@ -22,6 +22,7 @@ titanic.loc[titanic['Embarked'] == 'S', 'Embarked'] = 0
 titanic.loc[titanic['Embarked'] == 'C', 'Embarked'] = 1
 titanic.loc[titanic['Embarked'] == 'Q', 'Embarked'] = 2#将目的地改为INT类型方便识别
 
+#
 # 线性回归或逻辑
 # alg = LinearRegression()
 #kf = KFold(n_splits=3,random_state=1)

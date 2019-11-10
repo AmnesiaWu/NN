@@ -51,8 +51,6 @@ def train(num_iteration):
             acc_ = sess.run(acc, feed_dict=feed_test)
             saver.save(sess, '../cats_dogs_model/cats_dogs.ckpt', global_step=i)
             print("{}times， cost:{}, accuracy:{}".format(i, cost_, acc_))
-seed(10)
-set_random_seed(20)
 batch_size = 32
 classes = ['dogs', 'cats']
 num_classes = len(classes)
@@ -93,5 +91,5 @@ cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=y_pre, l
 optm = tf.train.GradientDescentOptimizer(0.0001).minimize(cost)
 acc = tf.reduce_mean(tf.cast(tf.equal(y_true_cls, y_pre_cls), tf.float32))
 sess.run(tf.global_variables_initializer())
-saver = tf.train.Saver(max_to_keep=100,keep_checkpoint_every_n_hours=1)
-train(10000)
+saver = tf.train.Saver(max_to_keep=10,keep_checkpoint_every_n_hours=1)
+train(50000)

@@ -15,13 +15,21 @@ y_data = [v[1] for v in data_set]
 W = tf.Variable(tf.random.uniform([1], -1, 1, name='W'))
 b = tf.Variable(tf.zeros([1]), name='b')
 y = W * x_data + b
-loss = tf.reduce_mean(tf.square(y - y_data), name='loss') # 方差
+with tf.name_scope('loss'):
+    loss = tf.reduce_mean(tf.square(y - y_data), name='loss') # 方差
+    tf.summary.scalar('loss', loss)
 optimizer = tf.train.GradientDescentOptimizer(0.5) # 优化器
 train = optimizer.minimize(loss, name='train') # 优化：尽量使得方差最小
+
+
 with tf.Session() as sess:
     init = tf.global_variables_initializer()
     sess.run(init)
+    merged = tf.summary.merge_all()
+    writer = tf.summary.FileWriter(r'D:\py_pro\test\tensorboard', sess.graph)
     print('w ={}, b = {}, loss = {}'.format(sess.run(W), sess.run(b), sess.run(loss)))
     for i in range(20):
         sess.run(train)
+        result = sess.run(merged)
+        writer.add_summary(result, i)
         print('w ={}, b = {}, loss = {}'.format(sess.run(W), sess.run(b), sess.run(loss)))
