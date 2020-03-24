@@ -1,8 +1,10 @@
+# -*- coding:utf8 -*-
 import numpy as np
-import cv2
-from PIL import Image
-import matplotlib.pyplot as plt
-path = r"D:\py_pro\test\pic\captcha_test\14581.jpg"
-image = Image.open(path)
-plt.imshow(image)
-plt.show()
+import pandas as pd
+
+
+a = [1, 2, 3]
+b = [4, 5, 6]
+for i,j in zip(a, b):
+    print(i, j)
+

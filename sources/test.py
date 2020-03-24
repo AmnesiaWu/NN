@@ -1,31 +1,20 @@
-from PIL import Image
+# -*- coding:utf-8 -*-
 import matplotlib.pyplot as plt
-import numpy as np
-import cv2
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
-def get_w(shape):
-    return tf.Variable(tf.truncated_normal(shape, stddev=0.05))
+from matplotlib.font_manager import FontProperties
+import numpy
+font = FontProperties(fname=r"C:\Windows\Fonts\simhei.ttf", size=14)  
 
-def get_b(size):
-    return tf.Variable(tf.constant(0.05, shape=[size]))
-path = r'D:\py_pro\test\pic\captcha_test\14581.jpg'
+salary = [2500, 25.331233, 2700, 5600, 6700, 5400, 3100, 3500, 7600, 7800,
+          8700, 9800, 10400]
 
-image = Image.open(path)
-image = np.array(image.convert("L"))
-image = image.reshape([1, 60, 160, 1])
-image = image.astype(np.float32)
-w = get_w([3, 3, 1, 32])
-b = get_b(32)
-layer = tf.nn.conv2d(image, w, strides=[1, 1, 1, 1], padding='SAME')
-layer += b
-layer = tf.nn.relu(layer)
-layer = tf.nn.max_pool(layer, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
+group = numpy.arange(0, 11000, 1000)
 
-with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
-    conv = sess.run(tf.transpose(layer, [3, 0, 1, 2]))
-    print(conv.shape)
+print(salary)
+plt.hist(salary, group, histtype='bar', rwidth=0.9)
 
-    plt.imshow(conv[0][0], cmap='gray')
-    plt.show()
+plt.xlabel('salary-group')
+plt.ylabel('salary')
+
+plt.title(u'测试例子——直方图', FontProperties=font)
+
+plt.show()

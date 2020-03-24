@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import numpy as np
 import cv2
 import glob
@@ -34,11 +35,11 @@ def load_train(train_path, image_size, classes):
 
     for fields in classes:
         index = classes.index(fields)
-        path = os.path.join(train_path, fields, '*g') #路径拼接
-        files = glob.glob(path) #得到文件夹下的所有文件
+        path = os.path.join(train_path, fields, '*g') # 路径拼接
+        files = glob.glob(path) # 得到文件夹下的所有文件
         for file in files:
             image = Image.open(file)
-            image = image.resize((image_size, image_size), Image.ANTIALIAS)#消除锯齿的方法处理图片
+            image = image.resize((image_size, image_size), Image.ANTIALIAS)# 消除锯齿的方法处理图片
             image = np.array(image)
             image = image.astype(np.float32)
             image = np.multiply(image, 1 / 255)
